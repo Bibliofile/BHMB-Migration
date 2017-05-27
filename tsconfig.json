@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [
+            "dom",
+            "es7",
+            "dom.iterable",
+            "scripthost"
+        ],
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "downlevelIteration": true,
+        "removeComments": false,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
+}
