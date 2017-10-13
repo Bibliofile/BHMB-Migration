@@ -2,12 +2,13 @@
     "rules": {
         "indent": [
             true,
-            "spaces"
+            "spaces",
+            2
         ],
         "no-duplicate-variable": true,
         "semicolon": [
             true,
-            "always"
+            "never"
         ],
         "cyclomatic-complexity": [
             true,
