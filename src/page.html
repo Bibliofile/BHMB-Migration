@@ -1,0 +1,19 @@
+<div class="container is-widescreen">
+  <h3 class="subtitle">Storage Migration</h3>
+  <p>The Bot's storage format has changed in the latest version of the bot. This extension lets you migrate saves from the old version to the new version. It is recommended to make a backup before running this migration in case something goes wrong.</p>
+
+  <p>If you do not remove old storage keys, this will roughly double the size of your backup.</p>
+
+  <p style="color: red">Changes may not be correctly applied without a reload.</p>
+
+  <label>
+    <input type="checkbox" data-for="overwrite" checked>
+    Overwrite V7 configuration if present
+  </label>
+  <label>
+    <input type="checkbox" data-for="remove" checked>
+    Remove old storage keys
+  </label>
+
+  <button class="button is-primary">Run Migration</button>
+</div>

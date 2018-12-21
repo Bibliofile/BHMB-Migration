@@ -3,5 +3,8 @@
     "editor.detectIndentation": false,
     "files.exclude": {
       "node_modules": true
-    }
+    },
+    "cSpell.words": [
+      "tempban"
+    ]
 }

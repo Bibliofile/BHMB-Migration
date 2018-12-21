@@ -5,7 +5,7 @@
             "dom",
             "es7",
             "dom.iterable",
-            "scripthost"
+            "es2017.object"
         ],
         "moduleResolution": "node",
         "downlevelIteration": true,
