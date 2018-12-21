@@ -1,0 +1,2 @@
+# Use LF, not CRLF on windows
+* text=auto eol=lf

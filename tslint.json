@@ -1,22 +1,3 @@
 {
-    "rules": {
-        "indent": [
-            true,
-            "spaces",
-            2
-        ],
-        "no-duplicate-variable": true,
-        "semicolon": [
-            true,
-            "never"
-        ],
-        "cyclomatic-complexity": [
-            true,
-            10
-        ],
-        "no-invalid-this": [
-            true,
-            "check-function-in-method"
-        ]
-    }
+  "extends": "tslint-config-standard"
 }

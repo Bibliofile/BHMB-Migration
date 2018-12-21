@@ -9,13 +9,14 @@ export default {
     format: 'umd',
     // For making debugging easier, fine to disable
     sourcemap: true,
+    // Where to get the bot from if in a browser
+    globals: { '@bhmb/bot': '@bhmb/bot' }
   },
   plugins: [
     typescript(),
     string({ include: ['**/*.html', '**/*.css', '**/*.txt']})
   ],
 
-  // Settings to avoid warnings and configure correctly for browsers
+  // Don't bundle the bot code
   external: ['@bhmb/bot'],
-  globals: { '@bhmb/bot': '@bhmb/bot' }
 }
