@@ -70,7 +70,7 @@ export class CombatConverter implements Converter {
     }
 
     return {
-      key: key.replace('biblio_censor_', ''),
+      key: key.replace('DaPVPBeta_msgs', ''),
       data: JSON.stringify(newData)
     }
   }
