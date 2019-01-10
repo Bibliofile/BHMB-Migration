@@ -51,3 +51,24 @@ export class ExtensionsConverter implements Converter {
     return { key: 'autoload', data: JSON.stringify(newIds) }
   }
 }
+
+export function extensionsConverter ({ overwrite }: { overwrite: boolean }): [string[], string[]] {
+  const worldIds = new Set(Array.from({ length: localStorage.length })
+    .map((_, i) => localStorage.key(i)!)
+    .filter(key => /\d$/.test(key))
+    .map(key => key.replace(/.*?(\d+)$/, '$1')))
+
+  const oldExtensions = JSON.parse(localStorage.getItem('mb_extensions') || '[]') as string[]
+  const newIds = oldExtensions.filter(id => !isRemoved(id)).map(toNewId)
+
+  const warnings: string[] = []
+  for (const worldId of worldIds) {
+    const key = `/${worldId}/extensions/autoload`
+    if (localStorage.getItem(key) != null && !overwrite) {
+      warnings.push('Not overwriting ' + key)
+    } else {
+      localStorage.setItem(key, JSON.stringify(newIds))
+    }
+  }
+  return [['mb_extensions'], warnings]
+}

@@ -1,5 +1,6 @@
 {
   "name": "bhmb-starter",
+  "exName": "bibliofile/convert",
   "version": "1.0.1",
   "description": "A simple starter project to make it simpler to create extensions for the Blockheads MessageBot",
   "main": "./build/bundle.js",

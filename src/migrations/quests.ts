@@ -76,7 +76,7 @@ export function questsConverter ({ overwrite }: { overwrite: boolean }): [string
 
     const oldQuests = JSON.parse(localStorage.getItem('quests_quests' + id) || '[]') as { title: string; description: string; xp: string; code: string }[]
 
-    const order: QuestList = oldQuests.map((q, i) => ({ id: i, children: [] }))
+    const order: QuestList = oldQuests.map((_, i) => ({ id: i, children: [] }))
     const quests: Quests = oldQuests
       .map((q, i) => ({ name: q.title, description: q.description, id: i, code: q.code, xp: +q.xp, completeMessage: '' }))
     setOrWarn('order', JSON.stringify(order))
