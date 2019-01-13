@@ -17,6 +17,7 @@ import { BankingConverter } from './migrations/banking'
 import { MessageConverter } from './migrations/messages'
 import { obsoleteConverter } from './migrations/obsolete'
 import { extensionsConverter } from './migrations/extensions'
+import { groupConverter } from './migrations/groups';
 
 const migrations: Converter[] = [
   new AfkConverter(),
@@ -34,7 +35,7 @@ const migrations: Converter[] = [
 ]
 
 const complexMigrations: Array<(options: { overwrite: boolean }) => [string[], string[]]> = [
-  // groupConverter,
+  groupConverter,
   settingsConverter,
   versionConverter,
   playersConverter,
