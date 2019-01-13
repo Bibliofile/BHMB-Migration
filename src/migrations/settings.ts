@@ -22,7 +22,7 @@ export function settingsConverter ({ overwrite }: { overwrite: boolean }): [stri
     .filter(key => /\d$/.test(key))
     .map(key => key.replace(/.*?(\d+)$/, '$1')))
 
-  const prefs = JSON.parse(localStorage.get('mb_preferences')) as OldPrefs
+  const prefs = JSON.parse(localStorage.getItem('mb_preferences') || '{}') as OldPrefs
 
   for (const id of worldIds) {
     localStorage.setItem(`/${id}/messages/announcementDelay`, prefs.announcementDelay.toString())

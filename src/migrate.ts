@@ -10,12 +10,13 @@ import { DiscordConverter } from './migrations/discord'
 import { ManpageConverter } from './migrations/manpages'
 import { TempbanConverter } from './migrations/tempban'
 import { WarningConverter } from './migrations/warnings'
-import { ExtensionsConverter } from './migrations/extensions'
-import { settingsConverter } from './migrations/setttings'
+import { settingsConverter } from './migrations/settings'
 import { versionConverter, playersConverter, logLoadConverter } from './migrations/housekeeping'
 import { questsConverter } from './migrations/quests'
 import { BankingConverter } from './migrations/banking'
 import { MessageConverter } from './migrations/messages'
+import { obsoleteConverter } from './migrations/obsolete'
+import { extensionsConverter } from './migrations/extensions'
 
 const migrations: Converter[] = [
   new AfkConverter(),
@@ -38,11 +39,9 @@ const complexMigrations: Array<(options: { overwrite: boolean }) => [string[], s
   versionConverter,
   playersConverter,
   logLoadConverter,
-  questsConverter
-]
-
-const globalMigrations: Converter[] = [
-  new ExtensionsConverter()
+  questsConverter,
+  extensionsConverter,
+  obsoleteConverter
 ]
 
 function toArray<T> (data: T | T[]): T[] {
@@ -61,12 +60,12 @@ export function migrate ({ remove = false, overwrite = false } = {}): string[] {
   const keys = Array.from({ length: localStorage.length })
     .map((_, i) => localStorage.key(i)!)
     .filter(key => !key.startsWith('/'))
+    .filter(key => !key.startsWith('load_indicator')) // Non-standardly named, but used by MB7
     .filter(key => !migrated.includes(key))
 
   for (const key of keys) {
     const migrateKey = /\d+$/.test(key) ? key.replace(/\d+$/, '') : key
-    const migrator = (/\d+$/.test(key) ? migrations : globalMigrations)
-      .find(m => m.supports(migrateKey))
+    const migrator = migrations.find(m => m.supports(migrateKey))
 
     if (!migrator) {
       warnings.push(`Missing migration for ${key}. Go bug Bibliophile`)
