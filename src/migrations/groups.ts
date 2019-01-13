@@ -243,7 +243,7 @@ export function groupConverter ({ overwrite }: { overwrite: boolean }): [string[
     }
 
     //Is there data set? If so, is the data more than the 3 default groups?
-    if ((localStorage.getItem(groupSaveKey) != null && JSON.parse(localStorage.get(groupSaveKey).length) > 3) && !overwrite) {
+    if ((localStorage.getItem(groupSaveKey) != null && JSON.parse(localStorage.getItem(groupSaveKey)!).length) > 3 && !overwrite) {
       warnings.push(`Ignoring migration for ${prefix}GroupPermissions${id} => ${groupSaveKey} and ${prefix}DisplayNames${id} => ${groupSaveKey} as there is already data present`)
     } else {
       localStorage.setItem(groupSaveKey, JSON.stringify(groupData))

@@ -21,7 +21,6 @@
           return { key: 'settings', data };
       }
   }
-  //# sourceMappingURL=afk.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_censor
@@ -38,7 +37,6 @@
           return { key: key.replace('biblio_censor_', ''), data };
       }
   }
-  //# sourceMappingURL=censor.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/dapersonmgn/DaPVPBeta
@@ -88,7 +86,6 @@
           return map[old];
       }
   }
-  //# sourceMappingURL=combat.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_cron_messages
@@ -107,7 +104,6 @@
           return { key: 'messages', data };
       }
   }
-  //# sourceMappingURL=cron.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_name_triggers
@@ -129,7 +125,6 @@
           return { key: key.replace('biblio_name_triggers_', ''), data };
       }
   }
-  //# sourceMappingURL=nameTriggers.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_op
@@ -154,7 +149,6 @@
           };
       }
   }
-  //# sourceMappingURL=slashOp.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Wingysam/discord
@@ -174,7 +168,6 @@
           return [];
       }
   }
-  //# sourceMappingURL=discord.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/manpages
@@ -199,7 +192,6 @@
           ];
       }
   }
-  //# sourceMappingURL=manpages.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_tempban
@@ -218,7 +210,6 @@
           return { key: 'config', data };
       }
   }
-  //# sourceMappingURL=tempban.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/warnings
@@ -257,7 +248,6 @@
           return { key: key.replace('warnings_', ''), data };
       }
   }
-  //# sourceMappingURL=warnings.js.map
 
   /**
    * Old: https://github.com/Blockheads-Messagebot/MessageBot/blob/efd7a665e3c77338497bbf6a9e13e00a197073d7/dev/settings/bot/index.js#L7
@@ -282,7 +272,6 @@
       }
       return [['mb_preferences'], []];
   }
-  //# sourceMappingURL=settings.js.map
 
   /**
    * mb_lastLogLoad -> lastPlayersUpdate
@@ -318,7 +307,6 @@
       localStorage.removeItem('mb_version');
       return [['mb_version'], []];
   }
-  //# sourceMappingURL=housekeeping.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/quests
@@ -401,7 +389,6 @@
       }
       return [migrated, warnings];
   }
-  //# sourceMappingURL=quests.js.map
 
   /**
    * From: http://blockheadsfans.com/messagebot/extension/Bibliofile/biblio_banks
@@ -491,7 +478,6 @@
           }
       }
   }
-  //# sourceMappingURL=banking.js.map
 
   /**
    * From: https://github.com/Blockheads-Messagebot/MessageBot/blob/efd7a66/dev/messages/announcements/index.js#L24
@@ -516,7 +502,6 @@
           return { key, data };
       }
   }
-  //# sourceMappingURL=messages.js.map
 
   // For keys that are no longer used, even by the v6 bot... but were never cleaned up
   function obsoleteConverter() {
@@ -525,7 +510,6 @@
           .filter(key => key.startsWith('pvpArr') || key.includes('xtra') || key.startsWith('intervalArr'));
       return [keys, []];
   }
-  //# sourceMappingURL=obsolete.js.map
 
   const extensionMap = {
       afk: 'bibliofile/afk',
@@ -578,6 +562,149 @@
       return [['mb_extensions'], warnings];
   }
 
+  /*
+
+          prefix + 'DisplayNames' + id,
+          prefix + 'GroupPermissions' + id
+  */
+  /**
+   * From: http://blockheadsfans.com/messagebot/extension/dapersonmgn/DaPgroupManagement
+   * To: https://gitcdn.xyz/repo/dapersonmgn/BHMB-groupManagement/master/build/bundle.js
+   */
+  function groupConverter({ overwrite }) {
+      const prefix = 'DaPgroupManagement';
+      const saveId = 'DaPersonMGN/groupManagement'.toLocaleLowerCase();
+      const warnings = [];
+      const migrated = [];
+      const permissionConversions = {
+          'KICK': 'BH.KICK',
+          'UNBAN': 'BH.UNBAN',
+          'BAN': 'BH.BAN',
+          'BAN-NO-DEVICE': 'BH.BAN_NO_DEVICE',
+          'BANKICKADMINS': ['BH.BAN_ADMIN', 'BH.KICK_ADMIN', 'BH.BAN_NO_DEVICE_ADMIN'],
+          'BANKICKMODS': ['BH.BAN_MOD', 'BH.BAN_NO_DEVICE_MOD', 'BH.KICK_MOD'],
+          'MOD': 'BH.MOD',
+          'UNMOD': 'BH.UNMOD',
+          'ADMIN': 'BH.ADMIN',
+          'UNADMIN': 'BH.UNADMIN',
+          'STOP': 'BH.STOP',
+          'HELP': 'BH.HELP',
+          'WHITELIST': 'BH.WHITELIST',
+          'UNWHITELIST': 'BH.UNWHITELIST',
+          'LISTMOD': 'BH.LIST_MODLIST',
+          'LISTBAN': 'BH.LIST_BLACKLIST',
+          'LISTADMIN': 'BH.LIST_ADMINLIST',
+          'LISTWHITELIST': 'BH.LIST_WHITELIST',
+          'PVPON': 'BH.PVPON',
+          'PVPOFF': 'BH.PVPOFF',
+          'LOADLIST': 'BH.LOADLISTS',
+          'CLEARMOD': 'BH.CLEAR_MODLIST',
+          'CLEARADMIN': 'BH.CLEAR_ADMINLIST',
+          'CLEARBAN': 'BH.CLEAR_BLACKLIST',
+          'CLEARWHITELIST': 'BH.CLEAR_WHITELIST',
+          'SETPASSWORD': 'BH.SET_PASSWORD',
+          'REMOVEPASSWORD': 'BH.REMOVE_PASSWORD',
+          'SETPRIVACY': 'BH.SET_PRIVACY',
+          'GROUPADD': 'GM.ADD',
+          'GROUPDELETE': 'GM.REMOVE'
+      };
+      const managedGroupPermissions = {
+          'administrator': {
+              allowed: ['BH.HELP', 'BH.PLAYERS', 'BH.KICK_MOD', 'BH.KICK_ADMIN', 'BH.KICK', 'BH.BAN_MOD', 'BH.BAN_ADMIN', 'BH.BAN', 'BH.BAN_NO_DEVICE_MOD', 'BH.BAN_NO_DEVICE_ADMIN', 'BH.BAN_NO_DEVICE', 'BH.UNBAN', 'BH.WHITELIST', 'BH.UNWHITELIST', 'BH.LIST_MODLIST', 'BH.LIST_BLACKLIST', 'BH.LIST_WHITELIST', 'BH.LIST_ADMINLIST', 'BH.LOADLISTS', 'BH.STOP', 'BH.PVPON', 'BH.PVPOFF', 'BH.MOD', 'BH.UNMOD', 'BH.ADMIN', 'BH.UNADMIN', 'BH.CLEAR_MODLIST', 'BH.CLEAR_ADMINLIST', 'BH.CLEAR_WHITELIST', 'BH.CLEAR_BLACKLIST'],
+              disabled: ['BH.HELP', 'BH.PLAYERS', 'BH.KICK_MOD', 'BH.KICK_ADMIN', 'BH.KICK', 'BH.BAN_MOD', 'BH.BAN_ADMIN', 'BH.BAN', 'BH.BAN_NO_DEVICE_MOD', 'BH.BAN_NO_DEVICE_ADMIN', 'BH.BAN_NO_DEVICE', 'BH.UNBAN', 'BH.WHITELIST', 'BH.UNWHITELIST', 'BH.LIST_MODLIST', 'BH.LIST_BLACKLIST', 'BH.LIST_WHITELIST', 'BH.LIST_ADMINLIST', 'BH.LOADLISTS', 'BH.STOP', 'BH.PVPON', 'BH.PVPOFF', 'BH.MOD', 'BH.UNMOD', 'BH.ADMIN', 'BH.UNADMIN', 'BH.CLEAR_MODLIST', 'BH.CLEAR_ADMINLIST', 'BH.CLEAR_WHITELIST', 'BH.CLEAR_BLACKLIST']
+          },
+          'moderator': {
+              allowed: ['BH.HELP', 'BH.PLAYERS', 'BH.KICK', 'BH.BAN', 'BH.BAN_NO_DEVICE', 'BH.UNBAN', 'BH.WHITELIST', 'BH.UNWHITELIST', 'BH.LIST_BLACKLIST', 'BH.LIST_WHITELIST'],
+              disabled: ['BH.HELP', 'BH.PLAYERS', 'BH.KICK', 'BH.BAN', 'BH.BAN_NO_DEVICE', 'BH.UNBAN', 'BH.WHITELIST', 'BH.UNWHITELIST', 'BH.LIST_BLACKLIST', 'BH.LIST_WHITELIST']
+          }
+      };
+      const convertPermissions = (permissions) => permissions.map(permission => permissionConversions[permission]).reduce((a, b) => {
+          if (typeof a === "string") {
+              if (typeof b === "string") {
+                  return [a, b];
+              }
+              else {
+                  return b.concat(a);
+              }
+          }
+          else {
+              if (typeof b === "string") {
+                  return a.concat(b);
+              }
+              else {
+                  return a.concat(b);
+              }
+          }
+      });
+      const worldIds = Array.from({ length: localStorage.length })
+          .map((_, i) => localStorage.key(i))
+          .filter(key => key.startsWith(prefix + 'Users'))
+          .map(key => key.replace(/.*?(\d+)$/, '$1'));
+      for (const id of worldIds) {
+          const oldUsers = JSON.parse(localStorage.getItem(prefix + 'Users' + id));
+          const oldDisplayNames = JSON.parse(localStorage.getItem(prefix + 'DisplayNames' + id));
+          const oldPerms = JSON.parse(localStorage.getItem(prefix + 'GroupPermissions' + id));
+          const groupUsers = {};
+          //Let's migrate users.
+          // /247945/dapersonmgn/groupmanagement/key
+          const userData = [];
+          const userSaveKey = `/${id}/${saveId}/users`;
+          for (const name in oldUsers) {
+              const oldUserGroups = oldUsers[name];
+              for (const group of oldUserGroups) {
+                  if (!groupUsers[group]) {
+                      groupUsers[group] = [];
+                  }
+                  groupUsers[group].push(name);
+              }
+              userData.push({
+                  player: name,
+                  permissions: {
+                      allowed: [],
+                      disabled: []
+                  }
+              });
+          }
+          //Let's migrate groups.
+          const groupData = [];
+          const groupSaveKey = `/${id}/${saveId}/groups`;
+          let groupId = 1;
+          for (const groupName in oldPerms) {
+              const oldPermissions = oldPerms[groupName];
+              const newPermissions = convertPermissions(oldPermissions);
+              const managedPermissions = managedGroupPermissions[groupName];
+              const displayName = oldDisplayNames[groupName];
+              groupData.push({
+                  id: groupId,
+                  name: displayName,
+                  permissions: {
+                      allowed: managedPermissions ? Array.from(new Set(managedPermissions.allowed.concat(newPermissions))) : newPermissions,
+                      disabled: managedPermissions ? managedPermissions.disabled : []
+                  },
+                  players: groupUsers[groupName] || [],
+                  managed: ['anyone', 'moderator', 'administrator'].includes(groupName)
+              });
+              groupId++;
+          }
+          //Is there data set? If so, is the data more than the 3 default groups?
+          if ((localStorage.getItem(groupSaveKey) != null && JSON.parse(localStorage.getItem(groupSaveKey)).length) > 3 && !overwrite) {
+              warnings.push(`Ignoring migration for ${prefix}GroupPermissions${id} => ${groupSaveKey} and ${prefix}DisplayNames${id} => ${groupSaveKey} as there is already data present`);
+          }
+          else {
+              localStorage.setItem(groupSaveKey, JSON.stringify(groupData));
+              migrated.push(prefix + 'GroupPermissions' + id, prefix + 'DisplayNames' + id);
+          }
+          if (localStorage.getItem(userSaveKey) != null && !overwrite) {
+              warnings.push(`Ignoring migration for ${prefix}Users${id} => ${userSaveKey} as there is already data present`);
+          }
+          else {
+              localStorage.setItem(userSaveKey, JSON.stringify(userData));
+              migrated.push(prefix + 'Users' + id);
+          }
+      }
+      return [migrated, warnings];
+  }
+
   const migrations = [
       new AfkConverter(),
       new BankingConverter(),
@@ -593,7 +720,7 @@
       new WarningConverter()
   ];
   const complexMigrations = [
-      // groupConverter,
+      groupConverter,
       settingsConverter,
       versionConverter,
       playersConverter,
@@ -643,7 +770,6 @@
       }
       return warnings;
   }
-  //# sourceMappingURL=migrate.js.map
 
   bot.MessageBot.registerExtension('bibliofile/convert', function (ex) {
       const ui = ex.bot.getExports('ui');
@@ -667,7 +793,6 @@
           }
       });
   });
-  //# sourceMappingURL=index.js.map
 
 }));
 //# sourceMappingURL=bundle.js.map
